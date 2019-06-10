@@ -277,7 +277,7 @@ TAB2: db	 10h, 08h, 06h, 01h, 02h, 14h, 10h, 13h ;"鸡"
 在这一步，我们要做的就是使用两个外部中断来控制显示模式的切换，具体来说就是，如果没有中断的话，我们就显示全亮。<br>
 
 当外部中断EX0触发，我们就滚动显示汉字；当有外部中断EX1触发，我们就闪烁显示汉字，嗯，就是这么简单。来看一下电路图
-![]()
+![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/%E7%94%B5%E8%B7%AF%E5%9B%BEstep3.PNG)
 如果你不熟悉51的中断系统，[请戳我](https://blog.csdn.net/haohulala/article/details/90768725)
 因为我们要使用外部中断0和外部中断1，所以不仅要开总中断EA, 还要开EX0 和 EX1<br>
 ```
@@ -317,6 +317,7 @@ H2:     ACALL DISPLAY2
         RETI
 ```
 #### 最后一期来看一下显示效果吧
-![]()
+![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/step3-output.gif)
 [欢迎来我的博客围观](https://blog.csdn.net/haohulala/article/details/91401170)
+
 
