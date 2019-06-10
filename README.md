@@ -320,8 +320,8 @@ H2:     ACALL DISPLAY2
 ![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/step3-output.gif)
 [欢迎来我的博客围观](https://blog.csdn.net/haohulala/article/details/91401170)
 ### 最后的最后，来看看如何使用吧
-[请点我找需要的字]()
-![]()
+[请点我找需要的字](https://github.com/hao297531173/8051BigAssignment/blob/master/word.txt)
+![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/how.gif)
 ✿✿ヽ(°▽°)ノ✿
 
 
