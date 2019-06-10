@@ -101,3 +101,6 @@ M2:     ACALL DISPLAY
 ```
 在这里初始化IE是没有必要的，因为没有用到中断，但是SP一定要初始化，因为我们有用到子程序的调用和堆栈。用DPTR+A作为字形表的指针，R7控制显示的字数，也就是说想要改变显示的字数直接改变R7的值就行了。让我们来看一下成果吧<br>
 ![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/step1Output.gif)<br>
+#### 使用方法
+在MAIN函数中将R7寄存器的值修改成你要显示的汉字数量，然后把要显示的汉字的字形码复制到TAB开始的地方就行了。<br>
+[详细的代码解析戳我](https://blog.csdn.net/haohulala/article/details/91372488)
