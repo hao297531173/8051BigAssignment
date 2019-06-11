@@ -316,6 +316,7 @@ H2:     ACALL DISPLAY2
         DJNZ R7, H2
         RETI
 ```
+[最终版完整代码请戳我](https://github.com/hao297531173/8051BigAssignment/blob/master/%E4%BB%A3%E7%A0%81/%E7%82%B9%E9%98%B5%E6%98%BE%E7%A4%BAstep3.asm)
 #### 最后一期来看一下显示效果吧
 ![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/step3-output.gif)
 [欢迎来我的博客围观](https://blog.csdn.net/haohulala/article/details/91401170)
