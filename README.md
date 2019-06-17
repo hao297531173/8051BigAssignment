@@ -1,10 +1,10 @@
 # 8051单片机大作业
 ### 写在前面的话
 这个项目致力于帮助迷途中的孩子完成单片机大作业，我将分成三步给出代码<br>
-- step1：基本的闪烁显示字符
-- step2：滚动显示字符
-- step3：中断按钮切换显示模式"
-- step3-plus：定时器0控制无中断时上半部分和下半部分切换显示
+- step1：基本的闪烁显示字符 [戳我看代码](https://github.com/hao297531173/8051BigAssignment/blob/master/%E4%BB%A3%E7%A0%81/%E7%82%B9%E9%98%B5%E6%98%BE%E7%A4%BAstep1.asm)
+- step2：滚动显示字符 [戳我看代码](https://github.com/hao297531173/8051BigAssignment/blob/master/%E4%BB%A3%E7%A0%81/%E7%82%B9%E9%98%B5%E6%98%BE%E7%A4%BAstep2-left.asm)
+- step3：中断按钮切换显示模式 [戳我看代码](https://github.com/hao297531173/8051BigAssignment/blob/master/%E4%BB%A3%E7%A0%81/%E7%82%B9%E9%98%B5%E6%98%BE%E7%A4%BAstep3.asm)
+- step3-plus：定时器0控制无中断时上半部分和下半部分切换显示 [戳我看代码](https://github.com/hao297531173/8051BigAssignment/blob/master/%E4%BB%A3%E7%A0%81/%E7%82%B9%E9%98%B5%E6%98%BE%E7%A4%BAstep3-plus.asm)
 ### 试验环境
 试验需要用到的软件我都放到[软件都在我这](https://github.com/hao297531173/8051BigAssignment/tree/master/%E8%BD%AF%E4%BB%B6%E9%83%BD%E5%9C%A8%E6%88%91%E8%BF%99)文件夹了，仿真电路图是`16X16.DSN`，我连的线应该是存在`16X16.PWI`，反正按照那个思路连线就对了，你可以下载原版电路图自己连线，编写汇编代码我推荐使用vscode，嗯，就这些。下面我们就进入正题<br>
 ### step1：基本的闪烁显示字符
