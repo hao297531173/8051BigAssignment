@@ -325,6 +325,140 @@ H2:     ACALL DISPLAY2
 ### 最后的最后，来看看如何使用吧
 [请点我找需要的字](https://github.com/hao297531173/8051BigAssignment/blob/master/word.txt)
 ![](https://github.com/hao297531173/8051BigAssignment/blob/master/%E5%9B%BE%E7%89%87/how.gif)
+
+
+### step3-plus:添加了外部使用定时器0中断来控制没有中断时上下切换显示的效果
+#### 主要说一下和step3相比改变的部分
+#### 初始化程序
+由于需要使用到定时器0，所以需要开启定时器0的中断允许触发位，并且开始定时器计时，还有中断寄存器TH0和TH1。同时需要设置外部中断为高优先级中断，这样就可以及时地相应外部中断了。<br>
+```
+;==========
+;初始化程序
+;==========
+MAIN:   MOV SP, #5FH    ;初始化堆栈指针
+        MOV IE, #85H    ;1000 0101B,开外部中断0和1
+        SETB EX0        ;开中断
+        SETB EX1
+        SETB ET0        ;开定时器0中断
+        SETB TR0       
+        SETB PX0        ;设置外部中断优先级为高优先级
+        SETB PX1 
+        MOV TMOD, #10H  ;设置工作模式为1,16位计数模式
+        MOV TH0, #00H   ;计数64k*1us进行一次中断
+        MOV TH1, #00H   ;64ms也就是0.064秒
+        MOV R5, #1
+M1:     DJNZ R5, M2 
+        SETB ET0        ;开定时器0中断 
+        MOV R5, #1
+M2:     ACALL DISPLAY   ;不断显示初始开机画面
+        SJMP M1
+```
+#### 定时器0中断程序
+定时中断程序逻辑上也是取数送数操作，所不同的是在进行中断处理的时候需要先将定时器0中断允许控制位置0。<br>
+```
+;================
+;定时器0中断程序
+;================
+ETP0:   PUSH 07H
+        CLR ET0         ;关定时器0中断
+        MOV R7, #1       ;*****这里控制显示的次数******
+ET11:   ACALL DISPLAYET
+        DJNZ R7, ET11
+        MOV TH0, #00H   ;计数64k*1us进行一次中断
+        MOV TH1, #00H   ;64ms也就是0.064秒
+        POP 07H
+        RETI
+```
+####  定时器中断0的送数程序
+和之前的没有中断时候的送数程序相比只是开始取数的语句标号不同了<br>
+```
+;触发了定时器中断的时候的送数
+GET0:   PUSH 01H    ;将R1的值入栈
+        PUSH 02H    ;将R2的值入栈
+        MOV R1, #30H ;指向显存的起始地址
+        MOV R2, #20H ;控制送数个数
+        MOV DPTR, #INIT0
+G001:     CLR A
+        MOVC A, @A+DPTR
+        MOV @R1, A
+        INC DPTR
+        INC R1
+        DJNZ R2, G001
+        POP 02H
+        POP 01H
+        RET
+```
+#### 定时器0中断的显示程序
+和之前没有中断的显示程序相比只是调用的取数子程序不同了<br>
+```
+DISPLAYET:  ACALL GET0       ;先将下一帧送入显存
+            PUSH 00H
+            PUSH 01H
+            PUSH 02H
+            PUSH 03H
+            PUSH 04H
+            MOV R4, #20H   ;****这里控制循环次数****
+            ;初始化部分
+D001:       MOV R0, #30H    ;用作上半部分显示内容指针
+            MOV R1, #30H+10H;用作下半部分显示内容指针
+            MOV R2, #10H    ;进行显示内容控制
+            MOV R3, #00H    ;用作字位码
+            CLR A
+            MOV P0, A
+            MOV P1, A
+            SETB P2.7
+            ;显示部分
+D002:       MOV P0, @R0     ;将低8位字形码送入P0口
+            MOV P1, @R1     ;将高8位字形码送入P1口
+            MOV P2, R3      ;将字位码送入P2口
+            CLR P2.7        ;将P2.7口置0表示可以显示
+            ACALL DELAY5    ;延时0.5ms
+            SETB P2.7       ;关闭显示
+            INC R0
+            INC R1
+            INC R3
+            DJNZ R2, D002
+            DJNZ R4, D001
+            POP 04H
+            POP 03H
+            POP 02H
+            POP 01H
+            POP 00H
+            RET
+```
+#### 还需要注意的小细节
+在外部中断处理程序开始的时候需要关闭定时器0中断，在中断返回之前再开启定时器0中断。<br>
+```
+;================
+;外部中断0中断程序
+;控制汉字滚动显示
+;=================
+EXP0:   CLR ET0 
+E1:    MOV R7, #4H     ;****这里控制要显示的字数****
+        MOV R6, #00H    ;这是DPTR的偏移量，这个值不需要修改
+E2:     ACALL DISPLAY1
+        DJNZ R7, E2
+        SETB ET0
+        RETI
+```
+```
+;=================
+;外部中断1中断程序
+;控制汉字闪烁显示
+;================
+EXP1:   CLR ET0
+H1:     MOV R7, #4H     ;****这里控制要显示的字数****
+        
+H2:     ACALL DISPLAY2
+        DJNZ R7, H2
+        SETB ET0
+        RETI
+```
+#### 来看一下显示效果吧
+![]()
+[完整代码戳我]()
+✿✿ヽ(°▽°)ノ✿
+✿✿ヽ(°▽°)ノ✿
 ✿✿ヽ(°▽°)ノ✿
 
 
